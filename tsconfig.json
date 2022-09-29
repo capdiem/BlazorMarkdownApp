@@ -1,0 +1,9 @@
+﻿{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "moduleResolution": "node",
+    "target": "ES2016",
+    "typeRoots": ["wwwroot/types", "node_modules/@types"]
+  }
+}
