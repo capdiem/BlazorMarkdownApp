@@ -1,9 +1,10 @@
 ﻿{
   "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
     "noImplicitAny": false,
-    "noEmitOnError": true,
     "moduleResolution": "node",
-    "target": "ES2016",
-    "typeRoots": ["wwwroot/types", "node_modules/@types"]
+    "module": "es6",
+    "target": "es5"
   }
 }
