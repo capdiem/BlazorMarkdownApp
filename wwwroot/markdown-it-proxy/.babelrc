@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "@babel/env",
+      {
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "prismjs",
+      {
+        "languages": ["javascript", "css", "markup", "csharp", "sql"]
+        // "plugins": ["line-numbers"],
+        // "theme": "twilight",
+        // "css": true
+      }
+    ]
+  ]
+}

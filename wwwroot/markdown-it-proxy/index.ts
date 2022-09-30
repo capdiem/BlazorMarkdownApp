@@ -1,5 +1,9 @@
-﻿import MarkdownIt from "markdown-it";
+﻿// import "prismjs/components/prism-sql";
+import MarkdownIt from "markdown-it";
 import Prism from "prismjs";
+import * as loadLanguages from "prismjs/components/index";
+
+// Prism.manual = true;
 
 export function render(src: string) {
   const md = new MarkdownIt({
@@ -28,8 +32,10 @@ function highlight(str: string, lang: string) {
 
   if (!Prism.languages[lang]) {
     try {
-      loadLanguages([lang]);
+      // console.log("loadLanguages", loadLanguages, "[lang]", [lang]);
+      loadLanguages.default([lang]);
     } catch (e) {
+      console.warn(e);
       console.warn(
         `[markdown-it-proxy] Syntax highlight for language "${lang}" is not supported.`
       );

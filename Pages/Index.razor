@@ -53,7 +53,7 @@ And rename the **languageConfig.json** file to **supportedCultures.json** at the
         if (firstRender)
         {
             MarkdownItJSObjectReference = await Js.InvokeAsync<IJSObjectReference>("import", "./js/markdown-it-proxy.min.js");
-            await Task.Delay(2000);
+            // await Task.Delay(2000);
             mdHtml = await Render(mdStr);
             StateHasChanged();
         }
