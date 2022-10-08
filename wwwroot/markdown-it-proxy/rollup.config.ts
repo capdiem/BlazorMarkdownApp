@@ -27,5 +27,4 @@ export default defineConfig({
   watch: {
     exclude: "node_modules/**",
   },
-  // external:['node_modules/prismjs/components/prism-csharp.js']
 });
