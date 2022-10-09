@@ -1,0 +1,20 @@
+﻿@using System.Reflection
+@namespace BlazorMarkdownApp
+
+@foreach (var render in _renderList)
+{
+    if (render.Item1 == "md")
+    {
+        <MarkdownIt Source="@render.Item2.ToString()"></MarkdownIt>
+    }
+    else if (render.Item1 == "example")
+    {
+        @GetRenderFragment(render.Item2.ToString())
+    }
+    else if (render.Item1 == "alert")
+    {
+        var dict = render.Item2 as Dictionary<string, object>;
+
+        <DynamicComponent Type="typeof(MAlert)" Parameters="dict"></DynamicComponent>
+    }
+}

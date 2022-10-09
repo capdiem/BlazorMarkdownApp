@@ -6,4 +6,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\themes" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Masa.Blazor" Version="0.6.0-rc.6" />
+    </ItemGroup>
 </Project>

@@ -67,7 +67,7 @@ declare namespace MarkdownIt {
   }
 }
 
-interface MarkdownIt {
+declare interface MarkdownIt {
   [prop: string]: any;
 }
 
@@ -90,4 +90,38 @@ declare module "markdown-it" {
   const MarkdownIt: MarkdownItConstructor;
 
   export default MarkdownIt;
+}
+
+declare namespace Prism {
+  export interface LanguageMap {
+    [language: string]: any;
+  }
+}
+
+declare interface Prism {
+  languages: Prism.LanguageMap;
+  highlight(text: string, grammar: any, language: string): string;
+}
+
+declare namespace hljs {
+  export interface HighlightOptions {
+    language: string;
+    ignoreIllegals?: boolean;
+  }
+
+  export interface HighlightResult {
+    code?: string;
+    relevance: number;
+    value: string;
+    language?: string;
+    illegal: boolean;
+    errorRaised?: Error;
+    // * for auto-highlight
+    secondBest?: Omit<HighlightResult, "second_best">;
+  }
+}
+
+declare interface hljs {
+  getLanguage: (languageName: string) => any;
+  highlight(code: string, options: hljs.HighlightOptions): hljs.HighlightResult;
 }

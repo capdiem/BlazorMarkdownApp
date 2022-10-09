@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using BlazorMarkdownApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddMasaBlazor();
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

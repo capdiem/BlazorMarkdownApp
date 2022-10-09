@@ -1,63 +1,102 @@
-﻿// import "prismjs/components/prism-sql";
-import MarkdownIt from "markdown-it";
-import Prism from "prismjs";
-import * as loadLanguages from "prismjs/components/index";
+﻿import MarkdownIt from "markdown-it";
+import markdownItClass from "markdown-it-class";
 
-// Prism.manual = true;
+declare const Prism: Prism;
+declare const hljs: hljs;
 
-export function render(src: string) {
+let md: MarkdownIt = undefined;
+
+const mdDict = {};
+
+export function init(
+  tagClassMap: { [prop: string]: string[] } = {},
+  key: string = "default"
+) {
   const md = new MarkdownIt({
     highlight,
-  });
-  var code = md.render(src);
-  // console.log(code)
-  return code;
+  }).use(markdownItClass, tagClassMap);
+
+  key ??= "default";
+  mdDict[key] = md;
+}
+
+export function render(src: string, key: string = "default") {
+  key ??= "default";
+  return mdDict[key].render(src);
+}
+
+function getHighlighter() {
+  try {
+    if (Prism) {
+      return {
+        getLanguage(lang: string) {
+          return Prism.languages[lang];
+        },
+        highlight(str: string, lang: string) {
+          return Prism.highlight(str, Prism.languages[lang], lang);
+        },
+      };
+    }
+  } catch (error) {}
+
+  try {
+    if (hljs) {
+      return {
+        getLanguage(lang: string) {
+          return hljs.getLanguage(lang);
+        },
+        highlight(str: string, lang: string) {
+          return hljs.highlight(str, { language: lang }).value;
+        },
+      };
+    }
+  } catch (error) {}
+
+  return undefined;
 }
 
 function highlight(str: string, lang: string) {
-  console.log("lang", lang);
+  const highlighter = getHighlighter();
+
+  if (!highlighter) {
+    console.warn(
+      `[markdown-it-proxy] Highlighter(Prismjs or Highlight.js) is required!`
+    );
+    return str;
+  }
 
   if (!lang) {
     return str;
   }
 
-  lang = lang.toLowerCase();
-  const rawLang = lang;
+  lang = getLangCodeFromExtension(lang.toLowerCase());
 
-  lang = getLangCodeFromExtension(lang);
+  console.log("lang", lang);
 
-  console.log("lang2", lang);
-
-  console.log("Prism.languages", Prism.languages);
-
-  if (!Prism.languages[lang]) {
+  if (highlighter.getLanguage(lang)) {
     try {
-      // console.log("loadLanguages", loadLanguages, "[lang]", [lang]);
-      loadLanguages.default([lang]);
-    } catch (e) {
-      console.warn(e);
-      console.warn(
-        `[markdown-it-proxy] Syntax highlight for language "${lang}" is not supported.`
+      return highlighter.highlight(str, lang);
+    } catch (error) {
+      console.error(
+        `[markdown-it-proxy] Syntax highlight for language ${lang} failed.`
       );
+      return str;
     }
+  } else {
+    console.warn(
+      `[markdown-it-proxy] Syntax highlight for language "${lang}" is not supported.`
+    );
   }
-
-  if (Prism.languages[lang]) {
-    const code = Prism.highlight(str, Prism.languages[lang], lang);
-    console.log("code", code);
-    return code;
-  }
-
-  return str;
 }
 
 function getLangCodeFromExtension(extension) {
   const extensionMap = {
     cs: "csharp",
-    html: "markup",
+    html: "markup", // TODO: html?
     md: "markdown",
     ts: "typescript",
     py: "python",
+    razor: "markup", // TODO: csthml?
     sh: "bash",
     yml: "yaml",
   };

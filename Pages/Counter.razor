@@ -1,18 +1,44 @@
 ﻿@page "/counter"
+@using System.Reflection
 
 <PageTitle>Counter</PageTitle>
 
-<h1>Counter</h1>
+<h4>直接调用组件</h4>
+<BlazorMarkdownApp.Demos.Button.Color></BlazorMarkdownApp.Demos.Button.Color>
 
-<p role="status">Current count: @currentCount</p>
+<br />
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<h4>通过Assembly</h4>
+@Demo
+
+<MarkdownIt Source="@demoCode"></MarkdownIt>
 
 @code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+    RenderFragment Demo { get; set; }
+
+    string demoType = $"Demos.Button.Color";
+
+    string demoCode = @"
+```razor
+<Button>Default Blue</Button>
+<Button Color=""red"">Custom Red</Button>
+```
+";
+
+    protected override void OnInitialized()
     {
-        currentCount++;
+        base.OnInitialized();
+
+        var executingDemoTypeStr = $"{Assembly.GetExecutingAssembly().GetName().Name}.{demoType}";
+        Console.WriteLine($"executingDemoTypeStr:{executingDemoTypeStr}");
+        var executingDemoType = Type.GetType(executingDemoTypeStr);
+
+        Demo = builder =>
+        {
+            builder.OpenComponent(0, executingDemoType);
+            builder.CloseComponent();
+        };
     }
+
 }
