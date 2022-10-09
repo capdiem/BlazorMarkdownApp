@@ -11,7 +11,10 @@
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="BlazorMarkdownApp.styles.css" rel="stylesheet" />
-    <link href="themes/material-lighter.css" rel="stylesheet" />
+    @* <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/base16/material.min.css" rel="stylesheet"> *@
+    @* <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/base16/material-vivid.min.css" rel="stylesheet"> *@
+    <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/base16/material-lighter.min.css" rel="stylesheet">
+    @* <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/styles/base16/material-darker.min.css" rel="stylesheet"> *@
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
@@ -28,8 +31,7 @@
     <a class="dismiss">🗙</a>
 </div>
 
-<script src="js/highlight.min.js"></script>
-<script src="js/csharp.min.js"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
 <script src="_framework/blazor.server.js" autostart="true"></script>
 </body>
 </html>

@@ -6,16 +6,16 @@ namespace BlazorMarkdownApp;
 public partial class MarkdownIt
 {
     [Inject]
-    private IJSRuntime Js { get; set; }
+    private IJSRuntime Js { get; set; } = null!;
 
     [Parameter]
-    public string Source { get; set; }
+    public string? Source { get; set; }
 
-    private string _prevSource;
+    private string? _prevSource;
 
-    private string MdHtml { get; set; }
+    private string? MdHtml { get; set; }
 
-    IJSObjectReference? MarkdownItJSObjectReference { get; set; }
+    IJSObjectReference? MarkdownItJsObjectReference { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {
@@ -25,7 +25,7 @@ public partial class MarkdownIt
         {
             _prevSource = Source;
 
-            if (MarkdownItJSObjectReference is not null)
+            if (MarkdownItJsObjectReference is not null)
             {
                 MdHtml = await Render(Source);
             }
@@ -36,14 +36,14 @@ public partial class MarkdownIt
     {
         if (firstRender)
         {
-            MarkdownItJSObjectReference = await Js.InvokeAsync<IJSObjectReference>("import", "./js/markdown-it-proxy.min.js");
+            MarkdownItJsObjectReference = await Js.InvokeAsync<IJSObjectReference>("import", "./js/markdown-it-proxy.min.js");
             MdHtml = await Render(Source);
             StateHasChanged();
         }
     }
 
-    private async Task<string> Render(string src)
+    private async Task<string> Render(string? src)
     {
-        return await MarkdownItJSObjectReference!.InvokeAsync<string>("render", src);
+        return await MarkdownItJsObjectReference!.InvokeAsync<string>("render", src);
     }
 }

@@ -6,4 +6,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <LangVersion>preview</LangVersion>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\themes" />
+    </ItemGroup>
 </Project>
