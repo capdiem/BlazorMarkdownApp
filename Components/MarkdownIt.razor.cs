@@ -3,7 +3,7 @@ using Microsoft.JSInterop;
 
 namespace BlazorMarkdownApp;
 
-public partial class MarkdownIt
+public partial class MarkdownIt : IAsyncDisposable
 {
     [Inject]
     private IJSRuntime Js { get; set; } = null!;
@@ -58,5 +58,20 @@ public partial class MarkdownIt
     private async Task<string> Render(string? src)
     {
         return await MarkdownItJsObjectReference!.InvokeAsync<string>("render", src);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (MarkdownItJsObjectReference is not null)
+        {
+            try
+            {
+                await MarkdownItJsObjectReference.DisposeAsync();
+            }
+            catch
+            {
+                // ignored
+            }
+        }
     }
 }

@@ -1,0 +1,13 @@
+﻿@namespace BlazorMarkdownApp
+
+@foreach (var template in _renderTemplates)
+{
+    if (template.Type == typeof(string))
+    {
+        <MarkdownIt Source="@template.Source"></MarkdownIt>
+    }
+    else
+    {
+        <DynamicComponentWrapper Type="template.Type" Parameters="template.Parameters"></DynamicComponentWrapper>
+    }
+}
