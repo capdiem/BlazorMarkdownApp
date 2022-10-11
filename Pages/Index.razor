@@ -2,14 +2,17 @@
 
 <PageTitle>Index</PageTitle>
 
-<MarkdownIt Source="@mdStr" TagClassMap="@(new Dictionary<string, string> { { "h1", "v-heading text-h3 text-sm-h3 mb-4" } })"></MarkdownIt>
+<MarkdownIt Source="@mdStr"
+            Options="opts => { opts.Html = true; opts.Linkify = true; opts.Typographer = true; }"
+            TagClassMap="@(new Dictionary<string, string> { { "h1", "v-heading text-h3 text-sm-h3 mb-4" } })">
+</MarkdownIt>
 
 @code {
 
     string mdStr =
         @"
 
-# [Home Page](https://blazor.masastack.com)
+# [MASA Blazor](https://blazor.masastack.com)
 
 ## Upgrading from v0.4.x to v0.5.x
 

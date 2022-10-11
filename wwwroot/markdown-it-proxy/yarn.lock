@@ -1408,6 +1408,11 @@ markdown-it-class@^1.0.0:
   resolved "https://registry.npmmirror.com/markdown-it-class/-/markdown-it-class-1.0.0.tgz#516a33b2c09b611fbc31c0c2e18a8b738c9c6851"
   integrity sha512-CVDYqSgmErLAqInwWu8WmAR2nX6MMIBIt8LB6qg8DNldca9+aoC6ZyuY0lvBMsaTSHNFJRkcHVR1XjLw9nr9qQ==
 
+markdown-it-header-sections@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmmirror.com/markdown-it-header-sections/-/markdown-it-header-sections-1.0.0.tgz#f9097fbe15188f671beff362c22e706b4d286090"
+  integrity sha512-GndZbs+iTo7NkNRf00VmT4mtFql7VoJNnSwB7hP5xkomGUTdQ78siVZIuRco4fbiWJd45JUemLxUS9vO8luPSA==
+
 markdown-it@^13.0.1:
   version "13.0.1"
   resolved "https://registry.npmmirror.com/markdown-it/-/markdown-it-13.0.1.tgz#c6ecc431cacf1a5da531423fc6a42807814af430"

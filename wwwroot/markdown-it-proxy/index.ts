@@ -1,5 +1,6 @@
 ﻿import MarkdownIt from "markdown-it";
 import markdownItClass from "markdown-it-class";
+import markdownItHeaderSections from "markdown-it-header-sections";
 
 declare const Prism: Prism;
 declare const hljs: hljs;
@@ -9,12 +10,14 @@ let md: MarkdownIt = undefined;
 const mdDict = {};
 
 export function init(
+  options: MarkdownIt.Options = {},
   tagClassMap: { [prop: string]: string[] } = {},
   key: string = "default"
 ) {
-  const md = new MarkdownIt({
-    highlight,
-  }).use(markdownItClass, tagClassMap);
+  options = { ...options, highlight };
+  const md = new MarkdownIt(options)
+    .use(markdownItHeaderSections)
+    .use(markdownItClass, tagClassMap);
 
   key ??= "default";
   mdDict[key] = md;

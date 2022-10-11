@@ -12,6 +12,9 @@ public partial class MarkdownIt : IAsyncDisposable
     public string? Key { get; set; }
 
     [Parameter]
+    public Action<MarkdownItOptions>? Options { get; set; }
+
+    [Parameter]
     public string? Source { get; set; }
 
     [Parameter]
@@ -33,7 +36,7 @@ public partial class MarkdownIt : IAsyncDisposable
 
             if (MarkdownItJsObjectReference is not null)
             {
-                MdHtml = await Render(Source);
+                await Render();
             }
         }
     }
@@ -43,21 +46,25 @@ public partial class MarkdownIt : IAsyncDisposable
         if (firstRender)
         {
             MarkdownItJsObjectReference = await Js.InvokeAsync<IJSObjectReference>("import", "./js/markdown-it-proxy.min.js");
-            await Init(TagClassMap, Key);
-            MdHtml = await Render(Source);
-            StateHasChanged();
+            await Init();
+            await Render();
         }
     }
 
-    private async Task Init(Dictionary<string, string>? tagClassMap = null, string? key = null)
+    private async Task Init()
     {
-        tagClassMap ??= new Dictionary<string, string>();
-        await MarkdownItJsObjectReference!.InvokeVoidAsync("init", tagClassMap, key);
+        var options = new MarkdownItOptions();
+        Options?.Invoke(options);
+
+        var tagClassMap = TagClassMap ?? new Dictionary<string, string>();
+
+        await MarkdownItJsObjectReference!.InvokeVoidAsync("init", options, tagClassMap, Key);
     }
 
-    private async Task<string> Render(string? src)
+    private async Task Render()
     {
-        return await MarkdownItJsObjectReference!.InvokeAsync<string>("render", src);
+        MdHtml = await MarkdownItJsObjectReference!.InvokeAsync<string>("render", Source);
+        StateHasChanged();
     }
 
     public async ValueTask DisposeAsync()
